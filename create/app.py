@@ -68,7 +68,7 @@ def createOrder ():
             flash('Cliente no encontrado') 
             return render_template('create.html', route = 'order')
         for spl in splProductid:
-            product = Product.query.filter_by(productid = spl, state = 'activo').all()
+            product = Product.query.filter(Product.productid == spl, Product.state != 'inactivo').all()
             if len(product) == 0:
                 flash('Producto no encontrado') 
                 return render_template('create.html', route = 'order')       
@@ -91,7 +91,7 @@ def apiCreateOrder ():
         if len(client) == 0:
             return "Registro no encontrado", 402 
         for spl in splProductid:
-            product = Product.query.filter_by(productid = spl, state = 'activo').all()
+            product = Product.query.filter(Product.productid == spl, Product.state != 'inactivo').all()
             if len(product) == 0:
                 return "Registro no encontrado", 402 
             order = Order(data['clientid'], spl, splQuantity[count], product[0].price * int(splQuantity[count]))

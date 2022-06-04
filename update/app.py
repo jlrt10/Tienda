@@ -56,7 +56,7 @@ def updateProduct ():
         id = request.form['id']
         if id == "true":
             productid = request.form['productid']
-            product = Product.query.filter_by(productid = productid, state = 'activo').all()
+            product = Product.query.filter(Product.productid == productid, Product.state != 'inactivo').all()
             if len(product) == 0:
                 flash('Producto no encontrado') 
                 return render_template('update.html', id = True, route = 'product')
@@ -66,9 +66,11 @@ def updateProduct ():
             productid = request.form['product']
             name = request.form['name']
             price = request.form['price']
+            state = request.form['state']
             product = Product.query.get(productid)
             product.name = name
             product.price = price
+            product.state = state
             db.session.add(product)
             db.session.commit()
             flash('Producto actualizado satisfactoriamente')
@@ -85,6 +87,7 @@ def apiUpdateProduct (id):
         else:
             product.name = data['name']
             product.price = data['price']
+            product.state = data['state']
             db.session.add(product)
             db.session.commit()
             return "Registro modificado", 200  
@@ -115,7 +118,7 @@ def updateOrder ():
                 flash('Cliente no encontrado') 
                 return render_template('create.html', id = True, route = 'order')
             for spl in splProductid:
-                product = Product.query.filter_by(productid = spl, state = 'activo').all()
+                product = Product.query.filter(Product.productid == spl, Product.state != 'inactivo').all()
                 if len(product) == 0:
                     flash('Producto no encontrado') 
                     return render_template('create.html', id = True, route = 'order')       

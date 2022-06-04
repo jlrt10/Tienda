@@ -23,12 +23,12 @@ def apiReadClients ():
 #Consultar productos
 @app.route('/read/products', methods=['GET'])
 def readProducts ():
-    products = Product.query.filter_by(state = 'activo').all()
+    products = Product.query.filter(Product.state != 'inactivo').all()
     return render_template('read.html', id = False, records = products, route = 'product')
 
 @app.route('/api/read/products', methods=['GET'])
 def apiReadProducts ():
-    products = Product.query.filter_by(state = 'activo').all()
+    products = Product.query.filter(Product.state != 'inactivo').all()
     return jsonify([{'name': product.name, 'document': product.price, 'state': product.state, 'created_at': product.created_at} for product in products])
 
 #Consultar ordenes
@@ -43,7 +43,7 @@ def readOrders ():
                 flash('Cliente no encontrado') 
                 return render_template('read.html', id = True, route = 'order')
             else:
-                orders = Order.query.filter_by(clientid = clientid, state = 'pendiente').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state == 'activo').all()
+                orders = Order.query.filter_by(clientid = clientid, state = 'pendiente').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state != 'inactivo').all()
                 return render_template('read.html', id = False, records = orders, route = 'order')
     return render_template('read.html', id = True, route = 'order')
 
@@ -54,7 +54,7 @@ def apiReadOrders ():
         client = Client.query.filter_by(clientid = data['clientid'], state = 'activo').all()  
         if len(client) == 0:
             return "Registro no encontrado", 402  
-        orders = Order.query.filter_by(clientid = data['clientid'], state = 'pendiente').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state == 'activo').all()
+        orders = Order.query.filter_by(clientid = data['clientid'], state = 'pendiente').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state != 'inactivo').all()
         return jsonify([{'clientid': order.clientid, 'productid': order.productid, 'quantity': order.quantity, 'total': order.total, 'state': order.state, 'created_at': order.created_at} for order in orders])
 
 #Consultar compras
@@ -69,7 +69,7 @@ def readPurchases ():
                 flash('Cliente no encontrado') 
                 return render_template('read.html', id = True, route = 'purchase')
             else:
-                orders = Order.query.filter_by(clientid = clientid, state = 'pagada').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state == 'activo').all()
+                orders = Order.query.filter_by(clientid = clientid, state = 'pagada').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state != 'inactivo').all()
                 return render_template('read.html', id = False, records = orders, route = 'purchase')
     return render_template('read.html', id = True, route = 'purchase')
 
@@ -80,7 +80,7 @@ def apiReadPurchases ():
         client = Client.query.filter_by(clientid = data['clientid'], state = 'activo').all()  
         if len(client) == 0:
             return "Registro no encontrado", 402  
-        orders = Order.query.filter_by(clientid = data['clientid'], state = 'pagada').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state == 'activo').all()
+        orders = Order.query.filter_by(clientid = data['clientid'], state = 'pagada').join(Client, Order.clientid == Client.clientid and Client.state == 'activo').join(Product, Order.clientid == Product.productid and Product.state != 'inactivo').all()
         return jsonify([{'clientid': order.clientid, 'productid': order.productid, 'quantity': order.quantity, 'total': order.total, 'state': order.state, 'created_at': order.created_at} for order in orders])
 
 if __name__ == '__main__':    

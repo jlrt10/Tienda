@@ -58,6 +58,25 @@
                     {% if route == 'product' %}
                     <div class="form-group">
                         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="price" placeholder="Precio" class="form-control" value="{{ records[0].price }}" required> 
+                    </div>
+                    <div class="form-group">
+                        <select name="state" placeholder="records[0].state" class="form-control" value="records[0].state" required>
+                            {% if records[0].state == 'activo' %} 
+                            <option value="activo" class="form-control" selected>Activo</option>
+                            <option value="sugerido" class="form-control">Sugerido</option>
+                            <option value="agotado" class="form-control">Agotado</option>
+                            {% endif %}
+                            {% if records[0].state == 'sugerido' %} 
+                            <option value="activo" class="form-control">Activo</option>
+                            <option value="sugerido" class="form-control" selected>Sugerido</option>
+                            <option value="agotado" class="form-control">Agotado</option>
+                            {% endif %}
+                            {% if records[0].state == 'agotado' %} 
+                            <option value="activo" class="form-control">Activo</option>
+                            <option value="sugerido" class="form-control">Sugerido</option>
+                            <option value="agotado" class="form-control" selected>Agotado</option>
+                            {% endif %}
+                        </select>
                     </div>  
                     {% endif %}  
                     {% if route == 'order' %}

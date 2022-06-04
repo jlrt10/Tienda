@@ -44,7 +44,7 @@ def apiDeleteClient (id):
 def deleteProduct ():
     if request.method == 'POST':
         productid = request.form['productid']
-        product = Product.query.filter_by(productid = productid, state = 'activo').all()
+        product = Product.query.filter(Product.productid == productid, Product.state != 'inactivo').all()
         if len(product) == 0:
             flash('Producto no encontrado') 
             return render_template('delete.html', route = 'product')
@@ -79,7 +79,10 @@ def deleteOrder ():
             flash('Cliente no encontrado') 
             return render_template('delete.html', route = 'order')
         else:          
-            orders = Order.query.filter_by(clientid = clientid).all()
+            orders = Order.query.filter_by(clientid = clientid, state = 'pendiente').all()
+            if len(orders) == 0:
+                flash('Orden no encontrada') 
+                return render_template('delete.html', route = 'order')
             for order in orders:
                 db.session.delete(order)
                 db.session.commit()
@@ -94,7 +97,9 @@ def apiDeleteOrder (id):
         if len(client) == 0:
             return "Registro no encontrado", 402  
         else:
-            orders = Order.query.filter_by(clientid = id).all()
+            orders = Order.query.filter_by(clientid = id, state = 'pendiente').all()
+            if len(orders) == 0:
+                return "Registro no encontrado", 402 
             for order in orders:
                 db.session.delete(order)
                 db.session.commit()
