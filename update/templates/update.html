@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-5 offset-md-3">            
+            <div class="card card-body">
+                {% if route == 'client' %}
+                <form action="/update/client" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Cliente:</label>
+                    </div>
+                {% endif %}
+                {% if route == 'product' %}
+                <form action="/update/product" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Producto:</label>
+                    </div>
+                {% endif %} 
+                {% if route == 'order' %}
+                <form action="/update/order" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Carro de Compras:</label>
+                    </div>
+                {% endif %} 
+                {% if route == 'purchase' %}
+                <form action="/update/purchase" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Cliente:</label>
+                    </div>
+                {% endif %} 
+                    {% if id == True %}    
+                    {% if route == 'client' or route == 'purchase' %}               
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="clientid" placeholder="Id" class="form-control" required>
+                    </div>
+                    {% endif %} 
+                    {% if route == 'product' %}               
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="productid" placeholder="Id" class="form-control" required>
+                    </div>
+                    {% endif %} 
+                    {% if route == 'order' %}               
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="orderid" placeholder="Id" class="form-control" required>
+                    </div>
+                    {% endif %} 
+                    {% endif %} 
+                    {% if id == False %}  
+                    {% if route == 'client' or route == 'product' %}
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Nombre" class="form-control" value="{{ records[0].name }}" required>
+                    </div>
+                    {% endif %} 
+                    {% if route == 'client' %}
+                    <div class="form-group">
+                        <input type="text" name="document" placeholder="Documento" class="form-control" value="{{ records[0].document }}" required> 
+                    </div>  
+                    {% endif %} 
+                    {% if route == 'product' %}
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="price" placeholder="Precio" class="form-control" value="{{ records[0].price }}" required> 
+                    </div>  
+                    {% endif %}  
+                    {% if route == 'order' %}
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="clientid" placeholder="Id Cliente" class="form-control" value="{{ records[0].clientid }}" required> 
+                    </div>  
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="productid" placeholder="Id Producto" class="form-control" value="{{ records[0].productid }}" required> 
+                    </div>
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="quantity" placeholder="Cantidad" class="form-control" value="{{ records[0].quantity }}" required> 
+                    </div>  
+                    {% endif %} 
+                    {% if route == 'purchase' %} 
+                    <table class="table table-striped table-bordered bg-white table-sm">
+                        <thead>
+                            <tr>
+                                <td align="center">Id</td>
+                                <td align="center">Cliente</td>
+                                <td align="center">Producto</td>
+                                <td align="center">Cantidad</td>
+                                <td align="center">Total</td>
+                                <td align="center">Estado</td>
+                                <td align="center">Creación</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>                                
+                                <td valign="middle">{{ record.orderid }}</td>                                 
+                                <td valign="middle">{{ record.clientid }}</td>
+                                <td valign="middle">{{ record.productid }}</td>
+                                <td valign="middle">{{ record.quantity }}</td>
+                                <td valign="middle">{{ record.total }}</td>                       
+                                <td valign="middle">{{ record.state }}</td>
+                                <td valign="middle">{{ record.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% endif %}                   
+                    {% if id == True %} 
+                    <input type="hidden" name="id" value="true">                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-block">Buscar</button>
+                    </div> 
+                    {% endif %} 
+                    {% if id == False %}   
+                    <input type="hidden" name="id" value="false">  
+                    {% if route == 'client' or route == 'purchase' %}
+                    <input type="hidden" name="client" value="{{ records[0].clientid }}">
+                    {% endif %} 
+                    {% if route == 'product' %}
+                    <input type="hidden" name="product" value="{{ records[0].productid }}">
+                    {% endif %}
+                    {% if route == 'order' %}
+                    <input type="hidden" name="order" value="{{ records[0].orderid }}">
+                    {% endif %}
+                    {% if route == 'client' or route == 'product' or route == 'order' %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    </div> 
+                    {% endif %}
+                    {% if route == 'purchase' %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Pagar</button>
+                    </div> 
+                    {% endif %}
+                    {% endif %} 
+                </form>
+            </div> 
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>        
+    </div>       
+{% endblock %}

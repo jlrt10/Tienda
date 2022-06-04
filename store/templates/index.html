@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="row">  
+    <div class="col-md-6">
+        <br>
+        <p style="text-align:center; font-size:50px; font-weight:bold;">Informatica I</p>
+        <br>
+        <p style="text-align:center;">Jorge Luis Roncancio Turriago</p>
+        <p style="text-align:center;">Cesar Augusto Orozco Manotas</p>
+        <p style="text-align:center;">Jorge Hernan Moreno Linares</p>
+        <p style="text-align:center;">Camilo Andres Nuñez Zabaleta</p>
+        <p style="text-align:center;">Carlos Enrique Hernandez Blanco</p>
+        <br>
+        <p style="text-align:center; font-size:35px; font-weight:bold;">Especialización en Ingenieria de Software</p>
+        <br>
+        <div align="center">
+            <p><H1>WebStore - Disappi</H1></p>
+        </div>
+    </div>  
+    <div class="col-md-6"> 
+        <img src="{{ url_for ('static', filename = './images/logo.png') }}" width="700" height="494"/>
+    </div>
+</div>
+{% endblock %}

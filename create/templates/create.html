@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-5 offset-md-3">            
+            <div class="card card-body">
+                {% if route == 'client' %}
+                <form action="/create/client" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Cliente:</label>
+                    </div>
+                {% endif %}
+                {% if route == 'product' %}
+                <form action="/create/product" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Producto:</label>
+                    </div>
+                {% endif %} 
+                {% if route == 'order' %}
+                <form action="/create/order" method="POST">
+                    <div class="form-group">
+                        <label>Datos del Carro de Compras:</label>
+                    </div>
+                {% endif %}    
+                    {% if route == 'client' or route == 'product' %}                
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Nombre" class="form-control" required>
+                    </div>
+                    {% endif %} 
+                    {% if route == 'client' %}
+                    <div class="form-group">
+                        <input type="text" name="document" placeholder="Documento" class="form-control" required> 
+                    </div>  
+                    {% endif %} 
+                    {% if route == 'product' %}
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="price" placeholder="Precio" class="form-control" required> 
+                    </div>  
+                    {% endif %}   
+                    {% if route == 'order' %}
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="clientid" placeholder="Id Cliente" class="form-control" required> 
+                    </div>  
+                    <div class="form-group">
+                        <input type="text" name="productid" placeholder="Id Producto" class="form-control" required> 
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="quantity" placeholder="Cantidad" class="form-control" required> 
+                    </div>  
+                    {% endif %}                
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    </div>                    
+                </form>
+            </div> 
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>        
+    </div>       
+{% endblock %}

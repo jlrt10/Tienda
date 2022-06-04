@@ -1,0 +1,109 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-5 offset-md-3">             
+            <div class="card card-body">
+                <div class="form-group" align="center">
+                    {% if route == 'client' %}
+                    <label>Clientes Registrados</label>
+                    {% endif %}
+                    {% if route == 'product' %}
+                    <label>Productos Registrados</label>
+                    {% endif %}  
+                    {% if route == 'order' %}
+                    <label>Carro de Compras</label>
+                    {% endif %}  
+                    {% if route == 'purchase' %}
+                    <label>Compras Registradas</label>
+                    {% endif %}  
+                </div>
+                {% if id == True %} 
+                {% if route == 'order' %}
+                <form action="/read/orders" method="POST">
+                {% endif %} 
+                {% if route == 'purchase' %}
+                <form action="/read/purchases" method="POST">
+                {% endif %}  
+                    <div class="form-group">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="clientid" placeholder="Id Cliente" class="form-control" required>
+                    </div>
+                    <input type="hidden" name="id" value="true">                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-block">Buscar</button>
+                    </div>                    
+                </form>
+                {% endif %} 
+                {% if id == False %} 
+                <table class="table table-striped table-bordered bg-white table-sm">
+                    <thead>
+                        <tr>
+                            <td align="center">Id</td>
+                            {% if route == 'client' or route == 'product' %}
+                            <td align="center">Nombre</td>
+                            {% endif %}
+                            {% if route == 'client' %}
+                            <td align="center">Documento</td>
+                            {% endif %}
+                            {% if route == 'product' %}
+                            <td align="center">Precio</td>
+                            {% endif %}
+                            {% if route == 'order' or route == 'purchase' %}
+                            <td align="center">Cliente</td>
+                            <td align="center">Producto</td>
+                            <td align="center">Cantidad</td>
+                            <td align="center">Total</td>
+                            {% endif %}
+                            <td align="center">Estado</td>
+                            <td align="center">Creación</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            {% if route == 'client' %}
+                            <td valign="middle">{{ record.clientid }}</td>
+                            {% endif %}  
+                            {% if route == 'product' %}
+                            <td valign="middle">{{ record.productid }}</td>
+                            {% endif %}  
+                            {% if route == 'order' or route == 'purchase' %}
+                            <td valign="middle">{{ record.orderid }}</td>
+                            {% endif %}  
+                            {% if route == 'client' or route == 'product' %}
+                            <td valign="middle">{{ record.name }}</td>
+                            {% endif %}
+                            {% if route == 'client' %}
+                            <td valign="middle">{{ record.document }}</td>
+                            {% endif %}
+                            {% if route == 'product' %}
+                            <td valign="middle">{{ record.price }}</td>
+                            {% endif %}   
+                            {% if route == 'order' or route == 'purchase' %} 
+                            <td valign="middle">{{ record.clientid }}</td>
+                            <td valign="middle">{{ record.productid }}</td>
+                            <td valign="middle">{{ record.quantity }}</td>
+                            <td valign="middle">{{ record.total }}</td>
+                            {% endif %}                          
+                            <td valign="middle">{{ record.state }}</td>
+                            <td valign="middle">{{ record.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %} 
+            </div> 
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}           
+        </div>        
+    </div>       
+{% endblock %}
