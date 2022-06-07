@@ -9,7 +9,7 @@
 - Cesar Augusto Orozco Manotas - 20221099023
 - Carlos Enrique Hernandez Blanco - 20221099030
 
-## **IntroducciÓn**
+## **Introducción**
 
 >El siguiente proyecto es una simulación de una tienda online, la cual se limita a la interacción entre clientes, productos y órdenes de compra. Para funcionar, realiza el consumo de una serie de servicios tipo **REST** que realizan todas las acciones asociadas al **CRUD** de la base de datos; estos servicios están cada uno en contenedores de Docker al igual que la base de datos. La organización y ejecución del proyecto se realizó utilizando la metodología **SCRUM**, simplificándola un poco por temas de tiempo, pero de igual manera realizando el planning correspondiente y sus dailys o seguimientos respectivos de las tareas planeadas por el equipo. En el siguiente enlace se puede ver la ejecución de SCRUM: https://trello.com/b/754aWgjQ/informaticai
 
