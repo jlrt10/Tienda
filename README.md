@@ -1,5 +1,5 @@
 # **WebStore - Disappi**
-## **Informática I.**
+## **Proyecto Tienda Informática I**
 
 ## **Realizado por**:
 
@@ -17,7 +17,7 @@
 
 >Adicionalmente, cuenta con una capa visual que hace uso del backend anterior, renderizando templates de html para dar una interacción mucho más amigable del proyecto para el usuario (sin dejar de lado, en ningún momento, el consumo de servicios independientes para cada una de las tareas del CRUD a través de Docker) y configurando un archivo "nginx.conf" en donde se especifican las rutas de acceso para cada uno de los servicios de la tienda.
 
-### **Las siguientes acciones se pueden realizar en la tienda online:**
+### **Las siguientes acciones se pueden realizar en la tienda:**
 1. Crear / Añadir
     - Clientes
     - Productos
@@ -41,7 +41,7 @@
 - Se debe tener instalado Docker para la ejecución de los contenedores necesarios.
 - Se recomienda tener instalado Git Bash para realizar la ejecución del instructivo.
 
-**En entorno Windows***
+**En entorno Windows**
 - Ingresar al directorio raíz del proyecto.
 - Para iniciar la ejecución, ejecutar en un git bash el archivo bash "start.sh".
 ```
@@ -61,6 +61,10 @@ bash stop.sh
 - Para iniciar la ejecución, ejecutar en consola el archivo bash "start.sh".
 ```
 bash start.sh
+```
+- Verificar que los contenedores de Docker estén levantados.
+```
+docker-compose ps
 ```
 - Para detener la ejecución, ejecutar en consola el archivo bash "stop.sh".
 ```
